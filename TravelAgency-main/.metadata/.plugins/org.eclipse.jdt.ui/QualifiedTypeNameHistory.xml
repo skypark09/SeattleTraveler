@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.ArrayList"/>
+    <fullyQualifiedTypeName name="java.sql.SQLException"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.dal.HostsDao"/>
+    <fullyQualifiedTypeName name="java.util.Date"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.dal.AirbnbListingDao"/>
+    <fullyQualifiedTypeName name="java.lang.Float"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.dal.NeighborhoodsDao"/>
+    <fullyQualifiedTypeName name="java.sql.Statement"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.dal.ThingsToDoDao"/>
+    <fullyQualifiedTypeName name="java.util.List"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.model.Restaurants"/>
+    <fullyQualifiedTypeName name="AirbnbSeattle.model.Parks"/>
+</qualifiedTypeNameHistroy>

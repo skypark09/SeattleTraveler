@@ -1,0 +1,144 @@
+package AirbnbSeattle.dal;
+
+import AirbnbSeattle.model.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+public class NeighborhoodsDao{
+	protected static ConnectionManager connectionManager;
+	
+	private static NeighborhoodsDao instance = null;
+	
+	protected NeighborhoodsDao() {
+		connectionManager = new ConnectionManager();
+	}
+	
+	public static NeighborhoodsDao getInstance() {
+		if(instance == null) {
+			instance = new NeighborhoodsDao();
+		}
+		return instance;
+	}
+	
+	public Neighborhoods getNeighborhoodById(int nId) throws SQLException {
+		String selectNeighborhood = "SELECT NeighborhoodId, NeighborhoodName, ZipCodeId FROM Neighborhood"
+				+ " WHERE NeighborhoodId =?";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		ZipCodeDao zipDao = ZipCodeDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectNeighborhood);
+			selectStmt.setInt(1, nId);
+			results = selectStmt.executeQuery();
+			if(results.next()) {
+				int resultNId = results.getInt("NeighborhoodId");
+				String name = results.getString("NeighborhoodName");
+				int zipId = results.getInt("ZipCodeId");
+				ZipCode zip = zipDao.getZipCodeByZipCodeId(zipId);
+				Neighborhoods neighbor = new Neighborhoods(resultNId,name,zip);
+				return neighbor;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return null;
+	}
+	
+	public List<Neighborhoods> getAllNeighborhood() throws SQLException {
+		String selectNeighborhood = "SELECT NeighborhoodId, NeighborhoodName, ZipCodeId FROM Neighborhood";
+		List<Neighborhoods> neighborhoods = new ArrayList<Neighborhoods>();
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		ZipCodeDao zipDao = ZipCodeDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectNeighborhood);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int resultNId = results.getInt("NeighborhoodId");
+				String name = results.getString("NeighborhoodName");
+				int zipId = results.getInt("ZipCodeId");
+				ZipCode zip = zipDao.getZipCodeByZipCodeId(zipId);
+				Neighborhoods neighbor = new Neighborhoods(resultNId,name,zip);
+				neighborhoods.add(neighbor);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return neighborhoods;
+	}
+	
+	public List<Neighborhoods> getNeighborhoodByZipcode(int zipcode) throws SQLException {
+		List<Neighborhoods> neighborhoods = new ArrayList<Neighborhoods>();
+		String selectNeighborhood = "SELECT NeighborhoodId, NeighborhoodName, Neighborhood.ZipCodeId FROM Neighborhood"
+				+ " JOIN ZipCode ON ZipCode.ZipCodeId = Neighborhood.ZipCodeId"
+				+ " WHERE ZipCodeNumber =?";
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		ZipCodeDao zipDao = ZipCodeDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectNeighborhood);
+			selectStmt.setInt(1, zipcode);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int resultNId = results.getInt("NeighborhoodId");
+				String name = results.getString("NeighborhoodName");
+				int zipId = results.getInt("Neighborhood.ZipCodeId");
+				ZipCode zip = zipDao.getZipCodeByZipCodeId(zipId);
+				Neighborhoods neighbor = new Neighborhoods(resultNId,name,zip);
+				neighborhoods.add(neighbor);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return null;
+	}
+	
+	
+}

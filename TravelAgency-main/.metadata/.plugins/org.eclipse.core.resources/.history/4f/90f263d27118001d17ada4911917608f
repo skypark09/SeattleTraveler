@@ -1,0 +1,84 @@
+package AirbnbSeattle.servlet;
+
+import AirbnbSeattle.dal.*;
+import AirbnbSeattle.model.*;
+
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/listingDetail")
+public class GetListingDetail extends HttpServlet{
+	protected AirbnbListingDao airbnbListingDao;
+	protected ReviewsDao reviewDao;
+
+	@Override
+	public void init() throws ServletException {
+		airbnbListingDao = AirbnbListingDao.getInstance();
+		reviewDao = ReviewsDao.getInstance();
+		
+	}
+	
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		
+		Map<String, String> messages = new HashMap<String, String>();
+        req.setAttribute("messages", messages);
+		
+        String input = req.getParameter("listingId");
+        
+        AirbnbListing listingDetail = null;
+        
+        List<Reviews> reviews = new ArrayList<Reviews>();
+        
+        try {
+     	   listingDetail = airbnbListingDao.getAirbnbListingByListingId(Integer.valueOf(input));
+     	   reviews = reviewDao.getReviewsByListingId(Integer.valueOf(input));
+
+        }catch (SQLException e) {
+ 			e.printStackTrace();
+ 			throw new IOException(e);
+        }
+        
+        req.setAttribute("listingDetail", listingDetail);
+        req.setAttribute("reviews", reviews);
+        req.getRequestDispatcher("/GetListingDetail.jsp").forward(req, resp);
+		
+	};
+	
+//	@Override
+//    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+//    		throws ServletException, IOException {
+//		
+//		Map<String, String> messages = new HashMap<String, String>();
+//        req.setAttribute("messages", messages);
+//        
+//       String input = req.getParameter("listingId");
+//       
+//       AirbnbListing listingDetail = null;
+//       
+//       try {
+//    	   listingDetail = airbnbListingDao.getAirbnbListingByListingId(Integer.valueOf(input));
+//       }catch (SQLException e) {
+//			e.printStackTrace();
+//			throw new IOException(e);
+//       }
+//       
+//       req.setAttribute("listingDetail", listingDetail);
+//       req.getRequestDispatcher("/GetListingDetail.jsp").forward(req, resp);
+//		
+//	};
+	
+	
+	
+}

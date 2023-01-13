@@ -1,0 +1,120 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.3.0/mdb.min.css"
+  rel="stylesheet"
+  />
+  
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css" integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ==" crossorigin="" />
+  
+
+
+<title>Find a listing</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0" href="/AirbnbSeattle">
+        Seattle Traveler
+      </a>
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+      	<li class="nav-item">
+          <a class="nav-link" href="findusers">Search User</a>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+	<form action="FindAirbnbListings" method="post" class="container" style="width:50vw; margin-top:2vw;">
+		<h1 style="text-align:center;">Search for a listing by Zipcode or Neighborhood</h1>	
+		<div class="form-outline mb-4">
+    		<input id="search" class="form-control" name="search" value="${fn:escapeXml(param.search)}" />
+    		<label class="form-label" for="search">ZipCode or Neighborhood</label>
+ 		</div>
+		<div class="col">
+			<button type="submit" class="btn btn-primary btn-block">Submit</button>
+			<br/><br/><br/>
+			<span id="successMessage"><b>${messages.success}</b></span>
+		</div>
+	</form>
+	 <div id="map" style="height:180px; width:180px;"></div>
+	<div style=" margin-left:1vw; margin-right:1vw; margin-top:2vw;">
+	<c:if test="${listings.size() != 0 || listings == null}">
+        <table border="1" class="table align-middle mb-0 bg-white" >
+        	<thead class="bg-light">
+	            <tr>
+	                <th>Name</th>
+	                <th>Price</th>
+	                <th>Get Detail</th>
+	
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	 <c:forEach items="${listings}" var="listing" >
+                <tr>
+                    <td><c:out value="${listing.getName()}" /></td>
+                    <td><c:out value="${listing.getPrice()}" /></td>
+                    <td><a href="listingDetail?listingId=<c:out value="${listing.getListingId()}"/>">See Detail</a></td>
+
+                </tr>
+            </c:forEach>
+	        </tbody>
+       </table>
+       </c:if>
+       </div>
+       <h5>Things to Do</h5>
+       <c:if test="${thingToDo.size() != 0 || thingToDo == null}">
+        <table border="1" class="table align-middle mb-0 bg-white" >
+        	<thead class="bg-light">
+	            <tr>
+	                <th>Thing To Do Name</th>
+	                <th>Address</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	        	 <c:forEach items="${thingToDo}" var="toDo" >
+                <tr>
+                    <td><c:out value="${toDo.getName()}" /></td>
+                    <td><c:out value="${toDo.getAddress()}" /></td>
+                </tr>
+            </c:forEach>
+	        </tbody>
+       </table>
+       </c:if>
+       </div>
+</body>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.3.0/mdb.min.js"
+></script>
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js" integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ==" crossorigin=""></script>
+</html>

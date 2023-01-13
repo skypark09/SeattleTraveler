@@ -1,0 +1,179 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>NewListing</title>
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.3.0/mdb.min.css"
+  rel="stylesheet"
+  />
+
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
+	  <!-- Container wrapper -->
+	  <div class="container-fluid">
+	    <!-- Toggle button -->
+	    <button
+	      class="navbar-toggler"
+	      type="button"
+	      data-mdb-toggle="collapse"
+	      data-mdb-target="#navbarSupportedContent"
+	      aria-controls="navbarSupportedContent"
+	      aria-expanded="false"
+	      aria-label="Toggle navigation"
+	    >
+	      <i class="fas fa-bars"></i>
+	    </button>
+	
+	    <!-- Collapsible wrapper -->
+	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+	      <!-- Navbar brand -->
+	      <a class="navbar-brand mt-2 mt-lg-0" href="/AirbnbSeattle">
+	        Seattle Traveler
+	      </a>
+	      <!-- Left links -->
+	      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+	 		<li class="nav-item">
+	          <a class="nav-link" href="findhosts">FindHost</a>
+	        </li>
+	      </ul>
+	      <!-- Left links -->
+	    </div>
+	    <!-- Collapsible wrapper -->
+	  </div>
+	  <!-- Container wrapper -->
+	</nav>
+ <h1 style="text-align:center;">Create new Airbnb Listing</h1>
+ <form action="listingCreate" method="post">
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="form-outline mb-4">
+        <input type="text" id="propertyName" class="form-control" name="propertyName" value="${fn:escapeXml(param.propertyName)}" required/>
+        <label class="form-label" for="propertyName">Property Name</label>
+        <div class="invalid-feedback">Please enter the property name</div>
+      </div>
+  <div class="form-outline mb-4">
+        <input type="text" id="listing_url" class="form-control" name="listing_url" value="${fn:escapeXml(param.listing_url)}" required />
+        <label class="form-label" for="listing_url">Listing URL</label>
+        <div class="invalid-feedback">Please enter the listing url </div>
+      </div>
+
+  <!-- Text input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="picture_url" class="form-control" name="picture_url" value="${fn:escapeXml(param.picture_url)}" required />
+    <label class="form-label" for="picture_url">Picture URL</label>
+    <div class="invalid-feedback">Please enter the picture url </div>
+  </div>
+
+  <!-- Text input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="latitude" class="form-control" name="latitude" value="${fn:escapeXml(param.latitude)}" required />
+    <label class="form-label" for="latitude" >Latitude</label>
+    <div class="invalid-feedback">Please enter the latitude </div>
+  </div>
+
+  <!-- Email input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="longitude" class="form-control" name="longitude" value="${fn:escapeXml(param.longitude)}" required />
+    <label class="form-label" for="longitude" >longitude</label>
+    <div class="invalid-feedback">Please enter the longitude </div>
+  </div>
+
+  <!-- Number input -->
+  <div class="form-outline mb-4">
+    <input type="text" id="property_type" class="form-control" name="property_type" value="${fn:escapeXml(param.property_type)}" required />
+    <label class="form-label" for="property_type">Property Type</label>
+    <div class="invalid-feedback">Please enter the property type </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="room_type" class="form-control" name="room_type" value="${fn:escapeXml(param.room_type)}" required />
+    <label class="form-label" for="room_type">Room Type</label>
+    <div class="invalid-feedback">Please enter the room type </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="accommdates" class="form-control" name="accommodates" value="${fn:escapeXml(param.accommodates)}" required />
+    <label class="form-label" for="accommodates">Accommodates</label>
+    <div class="invalid-feedback">Please enter the accommodates number</div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="bathrooms" class="form-control" name="bathrooms" value="${fn:escapeXml(param.bathrooms)}" required />
+    <label class="form-label" for="bathrooms">Bathrooms</label>
+    <div class="invalid-feedback">Please enter the bathrooms count </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="bedrooms" class="form-control" name="bedrooms" value="${fn:escapeXml(param.bedrooms)}" required/>
+    <label class="form-label" for="bedrooms">Bedrooms</label>
+    <div class="invalid-feedback">Please enter the bedrooms count </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="beds" class="form-control" name="beds" value="${fn:escapeXml(param.beds)}" required />
+    <label class="form-label" for="beds">Beds</label>
+    <div class="invalid-feedback">Please enter the bed counts </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="price" class="form-control" name="price" value="${fn:escapeXml(param.price)}" required />
+    <label class="form-label" for="price">Price</label>
+    <div class="invalid-feedback">Please enter the price value </div>
+  </div>
+  
+  <div class="form-outline mb-4">
+    <input type="text" id="hostId" class="form-control" name="hostId" value="${fn:escapeXml(param.hostId)}" readonly/>
+    <label class="form-label" for="hostId">Host Id</label>
+  </div>
+  
+  <div class="form-outline mb-4">
+  <label class="form-label" for="neighborhoodId">Neighborhood Id</label>
+  	<select class="select" name="neighborhoodId" class="select"></select>
+  	<c:forEach items="${neighborhoods}" var="neighborhood" >
+  		<option value="${neighborhood.getNeighborhoodId()}"><c:out value="${neighborhood.getNeighborhoodName()}"/></option>
+  	</c:forEach>
+    <%-- <input type="text" id="neighborhoodId" class="form-control" name="neighborhoodId" value="${fn:escapeXml(param.neighborhoodId)}" required />
+    <label class="form-label" for="neighborhoodId">Neighborhood Id</label>
+    <div class="invalid-feedback">Please enter the neighborhood id </div> --%>
+  </div>
+  
+  
+  <div class="form-outline mb-4">
+    <textarea class="form-control" id="neighborhood_Overview" rows="4" name="neighborhood_Overview" value="${fn:escapeXml(param.neighborhood_Overview)}" required></textarea>
+    <label class="form-label" for="neighborhood_Overview">Neighborhood Overview</label>
+    <div class="invalid-feedback">Please enter the neighborhood overview </div>
+  </div>
+
+  <!-- Message input -->
+  <div class="form-outline mb-4">
+    <textarea class="form-control" id="description" rows="4" name="description" value="${fn:escapeXml(param.description)}" required></textarea>
+    <label class="form-label" for="description">Description</label>
+    <div class="invalid-feedback">Please enter the property description </div>
+  </div>
+
+
+  <!-- Submit button -->
+  <div class="col">
+	 <button type="submit" class="btn btn-primary btn-block">Submit</button>
+	 <br/><br/><br/>
+	 <span id="successMessage"><b>${messages.success}</b></span>
+</div>
+</form>
+	
+</body>
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.3.0/mdb.min.js"
+></script>
+</html>

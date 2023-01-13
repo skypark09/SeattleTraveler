@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>AirbnbSeattle</display-name>
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+  </welcome-file-list>
+  <!--
+  <servlet>
+    <servlet-name>FindListing</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.FindListing</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindListing</servlet-name>
+    <url-pattern>/FindAirbnbListings</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>FindListingByNeighborhood</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.FindListingByNeighborhood</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindListingByNeighborhood</servlet-name>
+    <url-pattern>/FindListingByNeighborhood</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>ListingCreate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.ListingCreate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ListingCreate</servlet-name>
+    <url-pattern>/listingCreate</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>UserCreate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.UserCreate</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>UserCreate</servlet-name>
+    <url-pattern>/usercreate</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+  <servlet-name>UserDelete</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.UserDelete</servlet-class>
+  </servlet>
+    <servlet-name>UserDelete</servlet-name>
+    <url-pattern>/userdelete</url-pattern>
+  </servlet-mapping>
+    <servlet-mapping>
+   <servlet>
+    <servlet-name>UserUpdate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.UserUpdate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserUpdate</servlet-name>
+    <url-pattern>/userupdate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>FindUsers</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.FindUsers</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindUsers</servlet-name>
+    <url-pattern>/findusers</url-pattern>
+  </servlet-mapping>
+  
+  
+  <servlet>
+    <servlet-name>FindHosts</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.FindHosts</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>FindHosts</servlet-name>
+    <url-pattern>/AirbnbSeattle/findhosts</url-pattern>
+</servlet-mapping>
+  
+  <servlet>
+    <servlet-name>HostCreate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.HostCreate</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>HostCreate</servlet-name>
+    <url-pattern>/hostcreate</url-pattern>
+  </servlet-mapping>
+
+     <servlet>
+    <servlet-name>HostDelete</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.HostDelete</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>HostDelete</servlet-name>
+    <url-pattern>/hostdelete</url-pattern>
+  </servlet-mapping>
+
+  <servlet>
+    <servlet-name>HostUpdate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.HostUpdate</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>HostUpdate</servlet-name>
+    <url-pattern>/hostupdate</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>FindThingsToDo</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.FindThingsToDo</servlet-class>
+  </servlet>
+    <servlet-mapping>
+    <servlet-name>FindThingsToDo</servlet-name>
+    <url-pattern>/findthingstodo</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <servlet-name>UserReviews</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.UserReviews</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>UserReviews</servlet-name>
+    <url-pattern>/AirbnbSeattle/reviews</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  
+  <servlet>
+    <servlet-name>ReviewCreate</servlet-name>
+    <servlet-class>AirbnbSeattle.servlet.ReviewCreate</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ReviewCreate</servlet-name>
+    <url-pattern>/AirbnbSeattle/reviewcreate</url-pattern>
+  </servlet-mapping>
+  <servlet>
+  -->
+</web-app>

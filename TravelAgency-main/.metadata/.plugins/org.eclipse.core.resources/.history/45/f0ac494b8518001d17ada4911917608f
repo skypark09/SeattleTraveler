@@ -1,0 +1,369 @@
+package AirbnbSeattle.dal;
+
+import AirbnbSeattle.model.*;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+public class AirbnbListingDao{
+	
+protected static ConnectionManager connectionManager;
+	
+	private static AirbnbListingDao instance = null;
+	
+	protected AirbnbListingDao() {
+		connectionManager = new ConnectionManager();
+	}
+	
+	public static AirbnbListingDao getInstance() {
+		if(instance == null) {
+			instance = new AirbnbListingDao();
+		}
+		return instance;
+	}
+	
+	public AirbnbListing create(AirbnbListing listing) throws SQLException {
+		String insertListing="INSERT INTO AirbnbListing(Listing_url,Description,Neighborhood_Overview,Picture_URL,Latitude,Longitude,Property_Type,"
+				+ "Room_Type,Accommdates,Bathrooms,Bedrooms,Beds,Price,HostId,Name,NeighborhoodId)"
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		
+		Connection connection = null;
+		PreparedStatement insertStmt = null;
+		ResultSet resultKey = null;
+		
+		try {
+			connection = connectionManager.getConnection();
+			insertStmt = connection.prepareStatement(insertListing,Statement.RETURN_GENERATED_KEYS);
+
+			insertStmt.setString(1, listing.getListing_url());
+			insertStmt.setString(2, listing.getDescription());
+			insertStmt.setString(3, listing.getNeighborhood_Overview());
+			insertStmt.setString(4, listing.getPicture_URL());
+			insertStmt.setFloat(5, listing.getLatitude());
+			insertStmt.setFloat(6, listing.getLongitude());
+			insertStmt.setString(7, listing.getProperty_Type());
+			insertStmt.setString(8, listing.getRoom_Type());
+			insertStmt.setInt(9, listing.getAccommdates());
+			insertStmt.setFloat(10, listing.getBathrooms());
+			insertStmt.setFloat(11, listing.getBedrooms());
+			insertStmt.setFloat(12, listing.getBeds());
+			insertStmt.setDouble(13, listing.getPrice());
+			insertStmt.setInt(14, listing.getHost().getHostId());
+			insertStmt.setString(15, listing.getName());
+			insertStmt.setInt(16, listing.getNeighborhood().getNeighborhoodId());
+			
+
+			insertStmt.executeUpdate();
+			
+			resultKey = insertStmt.getGeneratedKeys();
+			long listingId = -1;
+			if(resultKey.next()) {
+				listingId = resultKey.getInt(1);
+			} else {
+				throw new SQLException("Unable to retrieve auto-generated key.");
+			}
+			listing.setListingId(listingId);
+			return listing;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(insertStmt != null) {
+				insertStmt.close();
+			}
+			if(resultKey != null) {
+				resultKey.close();
+			}
+		}
+		
+	}
+	
+	public AirbnbListing getAirbnbListingByListingId(int LId) throws SQLException {
+		String selectAirbnbListing = "SELECT ListingId, Listing_url,Description,Neighborhood_Overview,Picture_URL,Latitude,Longitude,Property_Type,"
+				+ "Room_Type,Accommdates,Bathrooms,Bedrooms,Beds,Price,Name,AirbnbListing.HostId,Name,NeighborhoodId"
+				+ " FROM AirbnbListing"
+				+ " WHERE ListingId=?;" ;
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		HostsDao hostDao = HostsDao.getInstance();
+		NeighborhoodsDao neighborDao = NeighborhoodsDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectAirbnbListing);
+			selectStmt.setInt(1, LId);
+			results = selectStmt.executeQuery();
+			if(results.next()) {
+				Long listingId = results.getLong("ListingId");
+				String listingURL = results.getString("Listing_url");
+				String desc = results.getString("Description");
+				String overview = results.getString("Neighborhood_Overview");
+				String pictureURL = results.getString("Picture_URL");
+				float lat = results.getFloat("Latitude");
+				float lon = results.getFloat("Longitude");
+				String propertyType = results.getString("Property_Type");
+				String roomType = results.getString("Room_Type");
+				int accommdate = results.getInt("Accommdates");
+				float bathRooms = results.getFloat("Bathrooms");
+				float bedRooms = results.getFloat("Bedrooms");
+				float beds = results.getFloat("Beds");
+				Double price = results.getDouble("Price");
+				int resultHostId = results.getInt("AirbnbListing.HostId");
+				String name = results.getString("Name");
+				int neighborhoodId = results.getInt("NeighborhoodId");
+				
+				Hosts host = hostDao.getHostByHostId(resultHostId);
+				Neighborhoods neighbor = neighborDao.getNeighborhoodById(neighborhoodId);
+				
+				AirbnbListing listing = new AirbnbListing(listingId,listingURL,desc,overview,pictureURL,lat,lon,propertyType,roomType,accommdate,bathRooms
+						,bedRooms,beds,price,host,name,neighbor);
+				return listing;
+			
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		
+		return null;
+	}
+	
+	public List<AirbnbListing> getListingByHostId(int hostId) throws SQLException{
+		List<AirbnbListing> listings = new ArrayList<AirbnbListing>();
+		
+		String selectAirbnbListing = "SELECT ListingId, Listing_url,Description,Neighborhood_Overview,Picture_URL,Latitude,Longitude,Property_Type,"
+				+ "Room_Type,Accommdates,Bathrooms,Bedrooms,Beds,Price,Name,AirbnbListing.HostId,Name,NeighborhoodId"
+				+ " FROM AirbnbListing JOIN Hosts ON AirbnbListing.HostId = Hosts.HostId"
+				+ " WHERE HostId=?;" ;
+		
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		HostsDao hostDao = HostsDao.getInstance();
+		NeighborhoodsDao neighborDao = NeighborhoodsDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectAirbnbListing);
+			selectStmt.setInt(1, hostId);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int listingId = results.getInt("ListingId");
+				String listingURL = results.getString("Listing_url");
+				String desc = results.getString("Description");
+				String overview = results.getString("Neighborhood_Overview");
+				String pictureURL = results.getString("Picture_URL");
+				float lat = results.getFloat("Latitude");
+				float lon = results.getFloat("Longitude");
+				String propertyType = results.getString("Property_Type");
+				String roomType = results.getString("Room_Type");
+				int accommdate = results.getInt("Accommdates");
+				float bathRooms = results.getFloat("Bathrooms");
+				float bedRooms = results.getFloat("Bedrooms");
+				float beds = results.getFloat("Beds");
+				Double price = results.getDouble("Price");
+				int resultHostId = results.getInt("AirbnbListing.HostId");
+				String name = results.getString("Name");
+				int neighborhoodId = results.getInt("NeighborhoodId");
+				
+				Hosts host = hostDao.getHostByHostId(resultHostId);
+				Neighborhoods neighbor = neighborDao.getNeighborhoodById(neighborhoodId);
+				
+				AirbnbListing listing = new AirbnbListing(listingId,listingURL,desc,overview,pictureURL,lat,lon,propertyType,roomType,accommdate,bathRooms
+						,bedRooms,beds,price,host,name,neighbor);
+				listings.add(listing);
+			
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return listings;
+	}
+	
+	
+	public List<AirbnbListing> getListingByNeighborhoodName(String neighbor) throws SQLException{
+		List<AirbnbListing> listings = new ArrayList<AirbnbListing>();
+		
+		String selectAirbnbListing = "SELECT ListingId, Listing_url,Description,Neighborhood_Overview,Picture_URL,Latitude,Longitude,Property_Type,"
+				+ "Room_Type,Accommdates,Bathrooms,Bedrooms,Beds,Price,Name,HostId,Name,AirbnbListing.NeighborhoodId"
+				+ " FROM AirbnbListing JOIN Neighborhood ON Neighborhood.NeighborhoodId = AirbnbListing.NeighborhoodId"
+				+ " WHERE NeighborhoodName=?;" ;
+		
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		HostsDao hostDao = HostsDao.getInstance();
+		NeighborhoodsDao neighborDao = NeighborhoodsDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectAirbnbListing);
+			selectStmt.setString(1, neighbor);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int listingId = results.getInt("ListingId");
+				String listingURL = results.getString("Listing_url");
+				String desc = results.getString("Description");
+				String overview = results.getString("Neighborhood_Overview");
+				String pictureURL = results.getString("Picture_URL");
+				float lat = results.getFloat("Latitude");
+				float lon = results.getFloat("Longitude");
+				String propertyType = results.getString("Property_Type");
+				String roomType = results.getString("Room_Type");
+				int accommdate = results.getInt("Accommdates");
+				float bathRooms = results.getFloat("Bathrooms");
+				float bedRooms = results.getFloat("Bedrooms");
+				float beds = results.getFloat("Beds");
+				Double price = results.getDouble("Price");
+				int resultHostId = results.getInt("HostId");
+				String name = results.getString("Name");
+				int neighborhoodId = results.getInt("AirbnbListing.NeighborhoodId");
+				
+				Hosts host = hostDao.getHostByHostId(resultHostId);
+				Neighborhoods resultNeighbor = neighborDao.getNeighborhoodById(neighborhoodId);
+				
+				AirbnbListing listing = new AirbnbListing(listingId,listingURL,desc,overview,pictureURL,lat,lon,propertyType,roomType,accommdate,bathRooms
+						,bedRooms,beds,price,host,name,resultNeighbor);
+				listings.add(listing);
+			
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return listings;
+	}
+	
+	public List<AirbnbListing> getListingByZipcode(int zip ) throws SQLException{
+		List<AirbnbListing> listings = new ArrayList<AirbnbListing>();
+		
+		String selectAirbnbListing = "SELECT ListingId, Listing_url,Description,Neighborhood_Overview,Picture_URL,Latitude,Longitude,Property_Type,"
+				+ "Room_Type,Accommdates,Bathrooms,Bedrooms,Beds,Price,Name,HostId,Name,AirbnbListing.NeighborhoodId"
+				+ " FROM AirbnbListing JOIN Neighborhood ON Neighborhood.NeighborhoodId = AirbnbListing.NeighborhoodId"
+				+ " JOIN ZipCode ON ZipCode.ZipCodeId = Neighborhood.ZipCodeId"
+				+ " WHERE ZipCodeNumber=?;" ;
+		
+		Connection connection = null;
+		PreparedStatement selectStmt = null;
+		ResultSet results = null;
+		HostsDao hostDao = HostsDao.getInstance();
+		NeighborhoodsDao neighborDao = NeighborhoodsDao.getInstance();
+		try {
+			connection = connectionManager.getConnection();
+			selectStmt = connection.prepareStatement(selectAirbnbListing);
+			selectStmt.setInt(1, zip);
+			results = selectStmt.executeQuery();
+			while(results.next()) {
+				int listingId = results.getInt("ListingId");
+				String listingURL = results.getString("Listing_url");
+				String desc = results.getString("Description");
+				String overview = results.getString("Neighborhood_Overview");
+				String pictureURL = results.getString("Picture_URL");
+				float lat = results.getFloat("Latitude");
+				float lon = results.getFloat("Longitude");
+				String propertyType = results.getString("Property_Type");
+				String roomType = results.getString("Room_Type");
+				int accommdate = results.getInt("Accommdates");
+				float bathRooms = results.getFloat("Bathrooms");
+				float bedRooms = results.getFloat("Bedrooms");
+				float beds = results.getFloat("Beds");
+				Double price = results.getDouble("Price");
+				int resultHostId = results.getInt("HostId");
+				String name = results.getString("Name");
+				int neighborhoodId = results.getInt("AirbnbListing.NeighborhoodId");
+				
+				Hosts host = hostDao.getHostByHostId(resultHostId);
+				Neighborhoods neighbor = neighborDao.getNeighborhoodById(neighborhoodId);
+				
+				AirbnbListing listing = new AirbnbListing(listingId,listingURL,desc,overview,pictureURL,lat,lon,propertyType,roomType,accommdate,bathRooms
+						,bedRooms,beds,price,host,name,neighbor);
+				listings.add(listing);
+			
+			
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(selectStmt != null) {
+				selectStmt.close();
+			}
+			if(results != null) {
+				results.close();
+			}
+		}
+		return listings;
+	}
+	
+	
+	public AirbnbListing delete(AirbnbListing listing) throws SQLException{
+		String deletelisting = "DELETE FROM AirbnbListing WHERE ListingId=?;";
+		Connection connection = null;
+		PreparedStatement deleteStmt = null;
+		try {
+			connection = connectionManager.getConnection();
+			deleteStmt = connection.prepareStatement(deletelisting);
+			deleteStmt.setLong(1, listing.getListingId());
+			deleteStmt.executeUpdate();
+
+			// Return null so the caller can no longer operate on the Persons instance.
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			if(connection != null) {
+				connection.close();
+			}
+			if(deleteStmt != null) {
+				deleteStmt.close();
+			}
+		}
+	}
+	
+	
+	
+}

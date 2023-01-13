@@ -1,0 +1,259 @@
+package AirbnbSeattle.model;
+
+public class AirbnbListing {
+	protected Long ListingId;
+	protected String Listing_url;
+	protected String Description;
+	protected String Neighborhood_Overview;
+	protected String Picture_URL;
+	protected float Latitude;
+	protected float Longitude;
+	protected String Property_Type;
+	protected String Room_Type;
+	protected int Accommdates;
+	protected float Bathrooms;
+	protected float Bedrooms;
+	protected float Beds;
+	protected Double Price;
+	protected Hosts host;
+	protected String name;
+	protected Neighborhoods neighborhood;
+	
+	
+	
+
+
+	public AirbnbListing(Long listingId, String listing_url, String description, String neighborhood_Overview,
+			String picture_URL, float latitude, float longitude, String property_Type, String room_Type,
+			int accommdates, float bathrooms, float bedrooms, float beds, Double price, Hosts host, String name,
+			Neighborhoods neighborhood) {
+		super();
+		ListingId = listingId;
+		Listing_url = listing_url;
+		Description = description;
+		Neighborhood_Overview = neighborhood_Overview;
+		Picture_URL = picture_URL;
+		Latitude = latitude;
+		Longitude = longitude;
+		Property_Type = property_Type;
+		Room_Type = room_Type;
+		Accommdates = accommdates;
+		Bathrooms = bathrooms;
+		Bedrooms = bedrooms;
+		Beds = beds;
+		Price = price;
+		this.host = host;
+		this.name = name;
+		this.neighborhood = neighborhood;
+	}
+	
+	
+
+
+	public AirbnbListing(String listing_url, String description, String neighborhood_Overview, String picture_URL,
+			float latitude, float longitude, String property_Type, String room_Type, int accommdates, float bathrooms,
+			float bedrooms, float beds, Double price, Hosts host, String name, Neighborhoods neighborhood) {
+		super();
+		Listing_url = listing_url;
+		Description = description;
+		Neighborhood_Overview = neighborhood_Overview;
+		Picture_URL = picture_URL;
+		Latitude = latitude;
+		Longitude = longitude;
+		Property_Type = property_Type;
+		Room_Type = room_Type;
+		Accommdates = accommdates;
+		Bathrooms = bathrooms;
+		Bedrooms = bedrooms;
+		Beds = beds;
+		Price = price;
+		this.host = host;
+		this.name = name;
+		this.neighborhood = neighborhood;
+	}
+
+
+
+
+	public Long getListingId() {
+		return ListingId;
+	}
+
+
+	public void setListingId(Long listingId) {
+		ListingId = listingId;
+	}
+
+
+	public String getListing_url() {
+		return Listing_url;
+	}
+
+
+	public void setListing_url(String listing_url) {
+		Listing_url = listing_url;
+	}
+
+
+	public String getDescription() {
+		return Description;
+	}
+
+
+	public void setDescription(String description) {
+		Description = description;
+	}
+
+
+	public String getNeighborhood_Overview() {
+		return Neighborhood_Overview;
+	}
+
+
+	public void setNeighborhood_Overview(String neighborhood_Overview) {
+		Neighborhood_Overview = neighborhood_Overview;
+	}
+
+
+	public String getPicture_URL() {
+		return Picture_URL;
+	}
+
+
+	public void setPicture_URL(String picture_URL) {
+		Picture_URL = picture_URL;
+	}
+
+
+	public float getLatitude() {
+		return Latitude;
+	}
+
+
+	public void setLatitude(float latitude) {
+		Latitude = latitude;
+	}
+
+
+	public float getLongitude() {
+		return Longitude;
+	}
+
+
+	public void setLongitude(float longitude) {
+		Longitude = longitude;
+	}
+
+
+	public String getProperty_Type() {
+		return Property_Type;
+	}
+
+
+	public void setProperty_Type(String property_Type) {
+		Property_Type = property_Type;
+	}
+
+
+	public String getRoom_Type() {
+		return Room_Type;
+	}
+
+
+	public void setRoom_Type(String room_Type) {
+		Room_Type = room_Type;
+	}
+
+
+	public int getAccommdates() {
+		return Accommdates;
+	}
+
+
+	public void setAccommdates(int accommdates) {
+		Accommdates = accommdates;
+	}
+
+
+	public float getBathrooms() {
+		return Bathrooms;
+	}
+
+
+	public void setBathrooms(float bathrooms) {
+		Bathrooms = bathrooms;
+	}
+
+
+	public float getBedrooms() {
+		return Bedrooms;
+	}
+
+
+	public void setBedrooms(float bedrooms) {
+		Bedrooms = bedrooms;
+	}
+
+
+	public float getBeds() {
+		return Beds;
+	}
+
+
+	public void setBeds(float beds) {
+		Beds = beds;
+	}
+
+
+	public Double getPrice() {
+		return Price;
+	}
+
+
+	public void setPrice(Double price) {
+		Price = price;
+	}
+
+
+	public Hosts getHost() {
+		return host;
+	}
+
+
+	public void setHost(Hosts host) {
+		this.host = host;
+	}
+	
+	
+
+
+	public String getName() {
+		return name;
+	}
+
+
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+
+
+
+	public Neighborhoods getNeighborhood() {
+		return neighborhood;
+	}
+
+
+	public void setNeighborhood(Neighborhoods neighborhood) {
+		this.neighborhood = neighborhood;
+	}
+	
+	
+	
+	
+	
+	
+	
+}

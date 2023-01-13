@@ -1,0 +1,8 @@
+1658082715465	Rename resource 'AirbnbListing.java'
+1658095299167	Rename resource 'Neighborhood.java'
+1658095313641	Rename compilation unit 'NeighborhoodDao.java'
+1658170388424	Move 'FindListing.jsp' to 'webapp'
+1658194672038	Move 'FindListingByNeighborhood.jsp' to 'webapp'
+1658202792735	Delete element
+1658213670049	Delete elements
+1658283958643	Move 6 resources to 'webapp'

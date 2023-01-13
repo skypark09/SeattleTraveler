@@ -1,0 +1,74 @@
+
+package AirbnbSeattle.tool;
+
+
+
+import java.sql.SQLException;
+import java.util.Date;
+import java.util.List;
+
+import AirbnbSeattle.dal.*;
+import AirbnbSeattle.model.*;
+
+
+public class inserter {
+    public static void main(String[] args) throws SQLException {
+		// DAO instances.
+    	UsersDao usersDao = UsersDao.getInstance();
+		ReviewsDao reviewsDao = ReviewsDao.getInstance();
+		AirbnbListingDao listingDao = AirbnbListingDao.getInstance();
+		NeighborhoodsDao neighborDao = NeighborhoodsDao.getInstance();
+		HostsDao hostsDao = HostsDao.getInstance();
+		ZipCodeDao zipDao = ZipCodeDao.getInstance();
+		
+		
+    	
+		// INSERT objects from our model.
+//        Users user1 = new Users(1,"Bruce");
+//        user1 = usersDao.create(user1);
+//        
+//        Users u1 = usersDao.getUserByUserId(1);
+//		System.out.format("Reading person: ui:%s un:%s \n",
+//				u1.getUserId(), u1.getUserName());
+//		Users u2 = usersDao.updateUserName(user2, "TT");
+//		System.out.format("User2s new name is : ui:%s un:%s \n",
+//				u2.getUserId(), u2.getUserName());
+//		System.out.println("User3 status : "+usersDao.delete(user3));
+        
+        //Reviews review = new Reviews(1,"Bruce",new Date(),"awful!",1);
+        //review = reviewsDao.create(review);
+        //Reviews review1 = new Reviews(2,"Bruce",new Date(),"great!",2);
+        //review1 = reviewsDao.create(review1);
+		
+		
+//		AirbnbListing l1 = listingDao.getAirbnbListingByListingId(2318);
+//		System.out.format("Reading person: ui:%s un:%s \n", l1.getListingId(),l1.getName());
+//		
+//		Neighborhoods n1 = neighborDao.getNeighborhoodById(1);
+//		System.out.format("Reading person: ui:%s un:%s \n", n1.getNeighborhoodId(),n1.getNeighborhoodName());
+//       
+//		Date date = new Date();
+//		Hosts host1 = new Hosts(2,"www","angie",date,"about",98,95);
+//		host1 = hostsDao.create(host1);
+//		System.out.format("reading host1 : id:%s url:%s d:%s a:%s r:%s a:%s \n",
+//				host1.getHostId(), host1.getHostUrl(), host1.getSince(),host1.getAbout(),host1.getResponseRate(),host1.getAcceptanceRate());
+		
+//		Hosts h1 = hostsDao.getHostByHostId(1);
+//		System.out.format("Reading person: ui:%s un:%s \n", h1.getHostName(),h1.getAbout());
+//		AirbnbListing l1 = new AirbnbListing(2318, null, null, null, null, 0,0, "https://www.airbnb.com/rooms/2318" ,"Hello", 0, 0, 0, 0, 200.0, h1, null, n1 );
+//		AirbnbListing al1 = listingDao.create(l1);
+//		List<AirbnbListing> al1 = listingDao.getListingByZipcode(98004);
+//		for(AirbnbListing l : al1) {
+//			System.out.format("Looping review by username: rid:%s cr:%s  \n",
+//					l.getListingId(),l.getPrice());
+//		}
+		
+		List<ZipCode> z1 = zipDao.getTop10ListingZipCode();
+		for(ZipCode l : z1) {
+			System.out.format("Looping review by username: rid:%s  \n",
+					l.getZipCodeNumber());
+		}
+		
+		
+    }
+   }

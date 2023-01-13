@@ -1,0 +1,89 @@
+package AirbnbSeattle.servlet;
+
+import AirbnbSeattle.dal.*;
+import AirbnbSeattle.model.*;
+
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.annotation.*;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
+@SuppressWarnings("serial")
+@WebServlet("/hostcreate")
+public class HostCreate extends HttpServlet {
+	
+	protected HostsDao hostsDao;
+	
+	@Override
+	public void init() throws ServletException {
+		hostsDao = HostsDao.getInstance();
+	}
+	
+	@Override
+	public void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// Map for storing messages.
+        Map<String, String> messages = new HashMap<String, String>();
+        req.setAttribute("messages", messages);
+        //Just render the JSP.   
+        req.getRequestDispatcher("/HostCreate.jsp").forward(req, resp);
+	}
+	
+	@Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
+    		throws ServletException, IOException {
+        // Map for storing messages.
+        Map<String, String> messages = new HashMap<String, String>();
+        req.setAttribute("messages", messages);
+
+        // Retrieve and validate name.
+        String hostName  = req.getParameter("hostname");
+         
+        // Create the Host.
+        String hostUrl = req.getParameter("hosturl");
+        // since must be in the format yyyy-mm-dd.
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        String stringSince = req.getParameter("since");
+        Date since = new Date();
+        
+        String about = req.getParameter("about");
+        
+        String responseRate_string = req.getParameter("responserate");
+        int responseRate = Integer.valueOf(responseRate_string);
+        
+        String acceptanceRate_string = req.getParameter("acceptancerate");
+        int acceptanceRate = Integer.valueOf(acceptanceRate_string);
+        	
+        try {
+        	since = dateFormat.parse(stringSince);
+        } catch (ParseException e) {
+        	e.printStackTrace();
+        	throw new IOException(e);
+        }
+        
+        try {
+        	// Exercise: parse the input.
+        	Hosts host = new Hosts(hostName, hostUrl, since, about, responseRate, acceptanceRate);
+        	host = hostsDao.create(host);
+        	Integer hostId = host.getHostId()
+        	messages.put("success", "Successfully created HostName: " + hostName + "HostId: " + hostId);
+        } catch (SQLException e) {
+			e.printStackTrace();
+			throw new IOException(e);
+        }
+        
+        req.getRequestDispatcher("/HostCreate.jsp").forward(req, resp);
+    }
+	              
+}
